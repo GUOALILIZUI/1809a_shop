@@ -12,7 +12,7 @@ class IndexController extends Controller
 				
    //接口配置
     public function check(Request $request){
- 	   echo $requst->input('echostr');
+ 	   echo $request->input('echostr');
     }
 	
 	
