@@ -17,3 +17,7 @@ Route::get('/', function () {
 //Route::get('/', function () {
 //	phpinfo();
 //});
+
+
+Route::any('Info','IndexController@Info');
+Route::any('check','IndexController@check');
