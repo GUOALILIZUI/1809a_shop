@@ -19,5 +19,5 @@ Route::get('/', function () {
 //});
 
 
-Route::any('Info','IndexController@Info');
-Route::any('check','IndexController@check');
+Route::any('Info',"IndexController@Info");
+Route::any('check',"IndexController@check";
