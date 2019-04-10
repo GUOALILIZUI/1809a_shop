@@ -34,8 +34,8 @@ class IndexController extends Controller
         $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$FromUserName&lang=zh_CN";
         $response=file_get_contents($url);
         $info=json_decode($response,true);
-        $name=$info['nickname'];
-        print_r($info);
+        //$name=$info['nickname'];
+        print_r($info);exit;
         if($Event='subscribe'){
            $data=DB::table('wx')->where('openid',$FromUserName)->count();
            //print_r($data);die;
