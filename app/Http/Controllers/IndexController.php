@@ -35,10 +35,10 @@ class IndexController extends Controller
         $response=file_get_contents($url);
         $info=json_decode($response,true);
         $name=$info['nickname'];
-        //print_r($info);
+        print_r($info);
         if($Event='subscribe'){
            $data=DB::table('wx')->where('openid',$FromUserName)->count();
-           print_r($data);die;
+           //print_r($data);die;
            if($data=='0'){
                $weiInfo=[
                    'name'=>$name,
