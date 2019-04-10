@@ -21,8 +21,8 @@ class IndexController extends Controller
         $time=date("Y-m-d H:i:s");
         $str=$time.$content.'\n';
         file_put_contents("logs/check.log",$str,FILE_APPEND);
-        //$xmlObj=simplexml_load_string($content);
-        //var_dump($xmlObj);
+        $xmlObj=simplexml_load_string($content);
+        var_dump($xmlObj);
         //echo 'success';
     }
 
