@@ -17,7 +17,6 @@ class IndexController extends Controller
         //首次接入检测请求是否为微信
         //echo $request->input('echostr');
 
-        //数据
         $content=file_get_contents("php://input");
         $time=date("Y-m-d H:i:s");
         $str=$time.$content.'\n';
@@ -55,6 +54,4 @@ class IndexController extends Controller
 
     }
 
-
 }
-
