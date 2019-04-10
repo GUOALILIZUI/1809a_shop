@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
 class IndexController extends Controller
@@ -22,8 +23,66 @@ class IndexController extends Controller
         $str=$time.$content.'\n';
         file_put_contents("logs/check.log",$str,FILE_APPEND);
         $xmlObj=simplexml_load_string($content);
-        var_dump($xmlObj);exit;
-        //echo 'success';
+
+        $ToUserName=$xmlObj->ToUserName;
+        $FromUserName=$xmlObj->FromUserName;
+        $CreateTime=$xmlObj->CreateTime;
+        $MsgType=$xmlObj->MsgType;
+        $Event=$xmlObj->Event;
+
+        $access=$this->accessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$FromUserName&lang=zh_CN";
+        $response=file_get_contents($url);
+        $info=json_decode($response,true);
+        $name=$info['nickname'];
+        //print_r($info);
+        if($Event='subscribe'){
+           $data=DB::table('wx')->where('openid',$FromUserName)->count();
+           if($data=='0'){
+               $weiInfo=[
+                   'name'=>$name,
+                   'sex'=>$info['sex'],
+                   'img'=>$info['headimgurl'],
+                   'openid'=>$info['openid'],
+                   'time'=>time()
+               ];
+               //print_r($weiInfo);
+               DB::table('wx')->insert($weiInfo);
+
+               //回复消息
+               $time=time();
+               $content="关注本公众号成功";
+               $xmlStr="
+                   <xml>
+                        <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                        <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                        <CreateTime>$time</CreateTime>
+                        <MsgType><![CDATA[text]]></MsgType>
+                        <Content><![CDATA[$content]]></Content>
+                   </xml>";
+               echo $xmlStr;
+
+           }else{
+               $time=time();
+               $content="欢迎".$name."回来";
+               $xmlStr="
+                   <xml>
+                        <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                        <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                        <CreateTime>$time</CreateTime>
+                        <MsgType><![CDATA[text]]></MsgType>
+                        <Content><![CDATA[$content]]></Content>
+                   </xml>
+               ";
+               echo $xmlStr;
+           }
+
+        }
+
+
+
+
+
     }
 
     //获取accessToken
