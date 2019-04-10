@@ -17,3 +17,9 @@ Route::get('/', function () {
 //Route::get('/', function () {
 //	phpinfo();
 //});
+
+
+//接口配置
+Route::any('Info','IndexController@Info');
+Route::any('check','IndexController@check');
+Route::any('accessToken','IndexController@accessToken');
