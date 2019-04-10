@@ -38,7 +38,7 @@ class IndexController extends Controller
         //print_r($info);
         if($Event='subscribe'){
            $data=DB::table('wx')->where('openid',$FromUserName)->count();
-           print_r($data);exit;
+           print_r($data);die;
            if($data=='0'){
                $weiInfo=[
                    'name'=>$name,
