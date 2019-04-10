@@ -21,8 +21,8 @@ class IndexController extends Controller
         $time=date("Y-m-d H:i:s");
         $str=$time.$content.'\n';
         file_put_contents("logs/check.log",$str,FILE_APPEND);
-        $xmlObj=simplexml_load_string($content);
-        var_dump($xmlObj);
+        //$xmlObj=simplexml_load_string($content);
+        //var_dump($xmlObj);
         //echo 'success';
     }
 
@@ -38,7 +38,7 @@ class IndexController extends Controller
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$app_secret";
             //var_dump($url);
             $response=file_get_contents($url);
-            echo $response;echo '<hr>';
+            //echo $response;echo '<hr>';
             $arr=json_decode($response,true);
 
             //accesstoken存缓存
