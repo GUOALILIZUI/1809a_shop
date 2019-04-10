@@ -22,7 +22,7 @@ class IndexController extends Controller
         $str=$time.$content.'\n';
         file_put_contents("logs/check.log",$str,FILE_APPEND);
         $xmlObj=simplexml_load_string($content);
-        var_dump($xmlObj);
+        var_dump($xmlObj);exit;
         //echo 'success';
     }
 
