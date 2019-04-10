@@ -90,9 +90,9 @@ class IndexController extends Controller
     public function accessToken(){
         $key='aa';
         $token=Redis::get($key);
-        if($token){
+        //if($token){
 
-        }else{
+        //}else{
             $appId="wxdd0d451ebdddd4f9";
             $app_secret="3a0980e46f62a1f9b759fa11adaab484";
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$app_secret";
@@ -107,8 +107,8 @@ class IndexController extends Controller
             //Redis::get($key);
             Redis::expire($key,3600);
             $token=$arr['access_token'];
-            print_r($token);
-        }
+            //print_r($token);
+        //}
         return $token;
 
 
