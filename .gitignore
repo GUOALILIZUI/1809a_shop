@@ -3,11 +3,12 @@
 /public/storage
 /storage/*.key
 /vendor
+.env
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
 .idea
-public/logs/check.log
-.env
+public/logs
+
