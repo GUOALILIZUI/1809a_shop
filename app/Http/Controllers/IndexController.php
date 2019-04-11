@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use GuzzleHttp\Client;
 
 class IndexController extends Controller
 {
@@ -36,7 +37,7 @@ class IndexController extends Controller
         $info=json_decode($response,true);
         $name=$info['nickname'];
         //print_r($info);exit;
-        if($Event='subscribe'){
+        if($Event=='subscribe'){
            $data=DB::table('wx')->where('openid',$FromUserName)->count();
            //print_r($data);die;
            if($data=='0'){
@@ -134,11 +135,6 @@ class IndexController extends Controller
                             "type"=>"view",
                             "name"=>"百度度",
                             "url"=>"http://www.baidu.com/"
-                        ),
-                        array(
-                            "type"=>"location_select",
-                            "name"=>"位置",
-                            "key">"V1001_GOOD"
                         )
 
                     ),
@@ -147,8 +143,13 @@ class IndexController extends Controller
             )
         );
         $strJson=json_encode($arr,JSON_UNESCAPED_UNICODE);
-        $objUrl=file_get_contents($url);
-        print_r($objUrl);
+        $client=new Client();
+        $response =$client->request('POST',$url,[
+            'body'  => $strJson,
+        ]);
+        $objJson=$response->getBody();
+        $info=json_decode($objJson,true);
+        print_r($info);
 
     }
 
