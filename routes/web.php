@@ -23,3 +23,6 @@ Route::get('/', function () {
 Route::any('Info','IndexController@Info');
 Route::any('check','IndexController@check');
 Route::any('accessToken','IndexController@accessToken');
+
+//自定义菜单
+Route::any('custom','IndexController@custom');

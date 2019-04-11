@@ -90,9 +90,9 @@ class IndexController extends Controller
     public function accessToken(){
         $key='aa';
         $token=Redis::get($key);
-        //if($token){
+        if($token){
 
-        //}else{
+        }else{
             $appId="wxdd0d451ebdddd4f9";
             $app_secret="3a0980e46f62a1f9b759fa11adaab484";
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$app_secret";
@@ -107,11 +107,48 @@ class IndexController extends Controller
             //Redis::get($key);
             Redis::expire($key,3600);
             $token=$arr['access_token'];
-            print_r($token);
-        //}
+            //print_r($token);
+        }
         return $token;
 
 
+
+    }
+
+    //一级菜单
+    public function custom()
+    {
+        $access = $this->accessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access";
+        $arr = array(
+            "button"=>array(
+                array(
+                    "type"=>"click",
+                    "name"=>"酸奶",
+                    "key"=>"V1001_TODAY_MUSIC"
+                ),
+                array(
+                    "name"=>"酸酸的",
+                    "sub_button"=>array(
+                        array(
+                            "type"=>"view",
+                            "name"=>"百度度",
+                            "url"=>"http://www.baidu.com/"
+                        ),
+                        array(
+                            "type"=>"location_select",
+                            "name"=>"位置",
+                            "key">"V1001_GOOD"
+                        )
+
+                    ),
+                )
+
+            )
+        );
+        $strJson=json_encode($arr,JSON_UNESCAPED_UNICODE);
+        $objUrl=file_get_contents($url);
+        print_r($objUrl);
 
     }
 
