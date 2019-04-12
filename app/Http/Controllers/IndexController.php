@@ -39,6 +39,7 @@ class IndexController extends Controller
         $info=json_decode($response,true);
         $name=$info['nickname'];
         //print_r($info);exit;
+        //提示语
         if($Event=='subscribe'){
            $data=DB::table('wx')->where('openid',$FromUserName)->count();
            //print_r($data);die;
@@ -83,8 +84,9 @@ class IndexController extends Controller
 
         }
 
-        //文本模式入库
+        //素材
         if($MsgType=='text'){
+            //如果文本就入库
             $TextData=[
                 'nickname'=>$name,
                 'text'=>$Content,
@@ -93,11 +95,18 @@ class IndexController extends Controller
             ];
             DB::table('xu')->insert($TextData);
         }else if($MsgType=='voice'){
-            $XuUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
+            //语音下载
+            $voUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
             //print_r($XuUrl);
-            $time=time();
-            $obj_str=file_get_contents($XuUrl);
-            file_put_contents("/tmp/$time.mp3",$obj_str,FILE_APPEND);
+            $voTime=time();
+            $voStr=file_get_contents($voUrl);
+            file_put_contents("/tmp/$voTime.mp3",$voStr,FILE_APPEND);
+        }else if($MsgType=='image'){
+            //图片下载
+            $imgUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
+            $imgTime=date('Y-m-d H:i:s',time());
+            $imgStr=file_get_contents($imgUrl);
+            file_put_contents("/tmp/img$imgTime.jpg",$imgStr,FILE_APPEND);
         }
 
 
