@@ -108,25 +108,7 @@ class IndexController extends Controller
             $imgTime=date('Y-m-d H:i:s',time());
             $imgStr=file_get_contents($imgUrl);
             file_put_contents("/wwwroot/1809a_shop/img/$imgTime.jpg",$imgStr,FILE_APPEND);
-        }else{
-            $time=time();
-            $text="不支持这种格式哦亲";
-            $xmlStr="
-                   <xml>
-                        <ToUserName><![CDATA[$FromUserName]]></ToUserName>
-                        <FromUserName><![CDATA[$ToUserName]]></FromUserName>
-                        <CreateTime>$time</CreateTime>
-                        <MsgType><![CDATA[text]]></MsgType>
-                        <Content><![CDATA[$text]]></Content>
-                   </xml>
-               ";
-            echo $xmlStr;
         }
-
-
-
-
-
 
     }
 
