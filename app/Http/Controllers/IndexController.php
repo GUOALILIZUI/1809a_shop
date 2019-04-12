@@ -31,6 +31,7 @@ class IndexController extends Controller
         $MsgType=$xmlObj->MsgType;
         $Event=$xmlObj->Event;
         $Content=$xmlObj->Content;
+        $MediaId=$xmlObj->MediaId;
 
         $access=$this->accessToken();
         $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$FromUserName&lang=zh_CN";
@@ -91,14 +92,12 @@ class IndexController extends Controller
                 'time'=>$CreateTime,
             ];
             DB::table('xu')->insert($TextData);
-        }else if($MsgType=='image'){
-            $XuUrl="https://api.weixin.qq.com/cgi-bin/media/upload?access_token=$access&type=$MsgType";
+        }else if($MsgType=='voice'){
+            $XuUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
             //print_r($XuUrl);
             $time=time();
-            $client=new Client();
-            $response =$client->request('POST',$url);
-            $objJson=$response->getBody();
-            file_put_contents("/tmp/$time.mp3",$objJson,FILE_APPEND);
+            $obj_str=file_get_contents($XuUrl);
+            file_put_contents("/tmp/$time.mp3",$obj_str,FILE_APPEND);
         }
 
 
