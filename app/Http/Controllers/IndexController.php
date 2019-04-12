@@ -33,12 +33,13 @@ class IndexController extends Controller
         $Content=$xmlObj->Content;
         $MediaId=$xmlObj->MediaId;
 
+        //用户信息
         $access=$this->accessToken();
         $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$FromUserName&lang=zh_CN";
         $response=file_get_contents($url);
         $info=json_decode($response,true);
         $name=$info['nickname'];
-        //print_r($info);exit;
+
         //提示语
         if($Event=='subscribe'){
            $data=DB::table('wx')->where('openid',$FromUserName)->count();
@@ -107,6 +108,19 @@ class IndexController extends Controller
             $imgTime=date('Y-m-d H:i:s',time());
             $imgStr=file_get_contents($imgUrl);
             file_put_contents("/tmp/img/$imgTime.jpg",$imgStr,FILE_APPEND);
+        }else{
+            $time=time();
+            $text="不支持这种格式哦亲";
+            $xmlStr="
+                   <xml>
+                        <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                        <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                        <CreateTime>$time</CreateTime>
+                        <MsgType><![CDATA[text]]></MsgType>
+                        <Content><![CDATA[$text]]></Content>
+                   </xml>
+               ";
+            echo $xmlStr;
         }
 
 
