@@ -91,10 +91,14 @@ class IndexController extends Controller
                 'time'=>$CreateTime,
             ];
             DB::table('xu')->insert($TextData);
-        }else if($MsgType=='voice'){
+        }else if($MsgType=='image'){
             $XuUrl="https://api.weixin.qq.com/cgi-bin/media/upload?access_token=$access&type=$MsgType";
-            print_r($XuUrl);
-
+            //print_r($XuUrl);
+            $time=time();
+            $client=new Client();
+            $response =$client->request('POST',$url);
+            $objJson=$response->getBody();
+            file_put_contents("/tmp/$time.mp3",$objJson,FILE_APPEND);
         }
 
 
