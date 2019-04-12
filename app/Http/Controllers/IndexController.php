@@ -91,6 +91,7 @@ class IndexController extends Controller
             $TextData=[
                 'nickname'=>$name,
                 'text'=>$Content,
+                'sex'=>$info['sex'],
                 'openid'=>$FromUserName,
                 'time'=>$CreateTime,
             ];
