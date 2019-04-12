@@ -101,13 +101,13 @@ class IndexController extends Controller
             //print_r($XuUrl);
             $voTime=time();
             $voStr=file_get_contents($voUrl);
-            file_put_contents("/tmp/voice/$voTime.mp3",$voStr,FILE_APPEND);
+            file_put_contents("/wwwroot/1809a_shop/voice/$voTime.mp3",$voStr,FILE_APPEND);
         }else if($MsgType=='image'){
             //图片下载
             $imgUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
             $imgTime=date('Y-m-d H:i:s',time());
             $imgStr=file_get_contents($imgUrl);
-            file_put_contents("/tmp/img/$imgTime.jpg",$imgStr,FILE_APPEND);
+            file_put_contents("/wwwroot/1809a_shop/img/$imgTime.jpg",$imgStr,FILE_APPEND);
         }else{
             $time=time();
             $text="不支持这种格式哦亲";
