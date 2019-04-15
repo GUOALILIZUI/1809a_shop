@@ -104,6 +104,12 @@ class IndexController extends Controller
             $voTime=time();
             $voStr=file_get_contents($voUrl);
             file_put_contents("/wwwroot/1809a_shop/voice/$voTime.mp3",$voStr,FILE_APPEND);
+            $voiceData=[
+                'nickname'=>$name,
+                'openid'=>$FromUserName,
+                'img'=>'/wwwroot/1809a_shop/img/'.$voTime.'.jpg'
+            ];
+            DB::table('voice')->insert($voiceData);
         }else if($MsgType=='image'){
             //图片下载
             $imgUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
