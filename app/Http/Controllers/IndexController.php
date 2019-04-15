@@ -107,7 +107,7 @@ class IndexController extends Controller
         }else if($MsgType=='image'){
             //图片下载
             $imgUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
-            $imgStr=$client->get(new Uri($url));
+            //$imgStr=$client->get(new Uri($url));
             //获取响应头信息
             //$headers=$imgStr->getHeaders();
             //print_r($headers);exit;
@@ -115,14 +115,14 @@ class IndexController extends Controller
             //$fileInfo=$headers['Content-disposition'][0];
             $imgTime=date('Y-m-d H:i:s',time());
             $imgStr=file_get_contents($imgUrl);
-            $imgPath="/wwwroot/1809a_shop/img/$imgTime.jpg";
-            file_put_contents($imgPath,$imgStr,FILE_APPEND);
+            file_put_contents("/wwwroot/1809a_shop/img/$imgTime.jpg",$imgStr,FILE_APPEND);
             $imgData=[
                 'nickname'=>$name,
                 'openid'=>$FromUserName,
-                'img'=>$imgPath
+                'img'=>'/wwwroot/1809a_shop/img/'.$imgTime.'.jpg'
             ];
-            DB::table('img')->insert($imgData);
+            DB::table('image')->insert($imgData);
+            //echo 33;exit;
         }
 
     }
