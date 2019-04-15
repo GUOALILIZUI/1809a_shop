@@ -109,13 +109,20 @@ class IndexController extends Controller
             $imgUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
             $imgStr=$client->get(new Uri($url));
             //获取响应头信息
-            $headers=$imgStr->getHeaders();
-            print_r($headers);exit;
+            //$headers=$imgStr->getHeaders();
+            //print_r($headers);exit;
             //获取文件名
-            $fileInfo=$headers['Content-disposition'][0];
-            //$imgTime=date('Y-m-d H:i:s',time());
-            //$imgStr=file_get_contents($imgUrl);
-            //file_put_contents("/wwwroot/1809a_shop/img/$imgTime.jpg",$imgStr,FILE_APPEND);
+            //$fileInfo=$headers['Content-disposition'][0];
+            $imgTime=date('Y-m-d H:i:s',time());
+            $imgStr=file_get_contents($imgUrl);
+            $imgPath="/wwwroot/1809a_shop/img/$imgTime.jpg";
+            file_put_contents($imgPath,$imgStr,FILE_APPEND);
+            $imgData=[
+                'nickname'=>$name,
+                'openid'=>$FromUserName,
+                'img'=>$imgPath
+            ];
+            DB::table('img')->insert($imgData);
         }
 
     }
@@ -124,9 +131,9 @@ class IndexController extends Controller
     public function accessToken(){
         $key='aa';
         $token=Redis::get($key);
-        //if($token){
+        if($token){
 
-        //}else{
+        }else{
             $appId="wxdd0d451ebdddd4f9";
             $app_secret="3a0980e46f62a1f9b759fa11adaab484";
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$app_secret";
@@ -142,7 +149,7 @@ class IndexController extends Controller
             Redis::expire($key,3600);
             $token=$arr['access_token'];
             print_r($token);
-        //}
+        }
         return $token;
 
 
