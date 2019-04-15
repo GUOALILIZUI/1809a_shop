@@ -107,7 +107,7 @@ class IndexController extends Controller
             $voiceData=[
                 'nickname'=>$name,
                 'openid'=>$FromUserName,
-                'img'=>'/wwwroot/1809a_shop/img/'.$voTime.'.jpg'
+                'voice'=>'/wwwroot/1809a_shop/voice/'.$voTime.'.jpg'
             ];
             DB::table('voice')->insert($voiceData);
         }else if($MsgType=='image'){
