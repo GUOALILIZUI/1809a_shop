@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Uri;
 
 class IndexController extends Controller
 {
@@ -84,7 +85,7 @@ class IndexController extends Controller
            }
 
         }
-
+        $client=new Client;
         //素材
         if($MsgType=='text'){
             //如果文本就入库
@@ -106,9 +107,15 @@ class IndexController extends Controller
         }else if($MsgType=='image'){
             //图片下载
             $imgUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
-            $imgTime=date('Y-m-d H:i:s',time());
-            $imgStr=file_get_contents($imgUrl);
-            file_put_contents("/wwwroot/1809a_shop/img/$imgTime.jpg",$imgStr,FILE_APPEND);
+            $imgStr=$client->get(new Uri($url));
+            //获取响应头信息
+            $headers=$imgStr->getHeaders();
+            print_r($headers);exit;
+            //获取文件名
+            $fileInfo=$headers['Content-disposition'][0];
+            //$imgTime=date('Y-m-d H:i:s',time());
+            //$imgStr=file_get_contents($imgUrl);
+            //file_put_contents("/wwwroot/1809a_shop/img/$imgTime.jpg",$imgStr,FILE_APPEND);
         }
 
     }
