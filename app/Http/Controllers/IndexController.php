@@ -94,15 +94,18 @@ class IndexController extends Controller
             $weaUrl="https://free-api.heweather.net/s6/weather/now?location=$cityName&key=HE1904161102191951";
             $weaStr=file_get_contents($weaUrl);
             $weaInfo=json_decode($weaStr,true);
-            //print_r($weaInfo);
+            //print_r($weaInfo);exit;
             $city=$weaInfo['HeWeather6'][0]['basic']['location']; //城市
             $wind_dir=$weaInfo['HeWeather6'][0]['now']['wind_dir']; //风力
             $wind_sc=$weaInfo['HeWeather6'][0]['now']['wind_sc']; //风向
             $tmp=$weaInfo['HeWeather6'][0]['now']['tmp']; //温度
+            $status=$weaInfo['HeWeather6'][0]['status']; //状态
+
             //回复消息
-            $text='城市：'.$city."\n".'风力：'.$wind_sc."\n".'风向：'.$wind_dir."\n".'温度：'.$tmp."\n";
-            $time=time();
-            $xmlStr="
+            if($status=='ok'){
+                $text='城市：'.$city."\n".'风力：'.$wind_sc."\n".'风向：'.$wind_dir."\n".'温度：'.$tmp."\n";
+                $time=time();
+                $xmlStr="
                    <xml>
                         <ToUserName><![CDATA[$FromUserName]]></ToUserName>
                         <FromUserName><![CDATA[$ToUserName]]></FromUserName>
@@ -110,7 +113,21 @@ class IndexController extends Controller
                         <MsgType><![CDATA[text]]></MsgType>
                         <Content><![CDATA[$text]]></Content>
                    </xml>";
-            echo $xmlStr;
+                echo $xmlStr;
+            }else{
+                $text="你的城市名是乱写的！！！";
+                $time=time();
+                $xmlStr="
+                   <xml>
+                        <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                        <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                        <CreateTime>$time</CreateTime>
+                        <MsgType><![CDATA[text]]></MsgType>
+                        <Content><![CDATA[$text]]></Content>
+                   </xml>";
+                echo $xmlStr;
+            }
+
 
             //如果文本就入库
                 $TextData=[
