@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class IndexController extends Controller
 {
-    //测试
+    /**测试*/
     public function Info(){
         phpinfo();
     }
@@ -89,15 +89,38 @@ class IndexController extends Controller
         $client=new Client;
         //素材
         if($MsgType=='text'){
+            $cityName=explode('+',$Content)[0];
+            //获取天气
+            $weaUrl="https://free-api.heweather.net/s6/weather/now?location=$cityName&key=HE1904161102191951";
+            $weaStr=file_get_contents($weaUrl);
+            $weaInfo=json_decode($weaStr,true);
+            //print_r($weaInfo);
+            $city=$weaInfo['HeWeather6'][0]['basic']['location']; //城市
+            $wind_dir=$weaInfo['HeWeather6'][0]['now']['wind_dir']; //风力
+            $wind_sc=$weaInfo['HeWeather6'][0]['now']['wind_sc']; //风向
+            $tmp=$weaInfo['HeWeather6'][0]['now']['tmp']; //温度
+            //回复消息
+            $text='城市：'.$city."\n".'风力：'.$wind_sc."\n".'风向：'.$wind_dir."\n".'温度：'.$tmp."\n";
+            $time=time();
+            $xmlStr="
+                   <xml>
+                        <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                        <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                        <CreateTime>$time</CreateTime>
+                        <MsgType><![CDATA[text]]></MsgType>
+                        <Content><![CDATA[$text]]></Content>
+                   </xml>";
+            echo $xmlStr;
+
             //如果文本就入库
-            $TextData=[
-                'nickname'=>$name,
-                'text'=>$Content,
-                'sex'=>$info['sex'],
-                'openid'=>$FromUserName,
-                'time'=>$CreateTime,
-            ];
-            DB::table('xu')->insert($TextData);
+                $TextData=[
+                    'nickname'=>$name,
+                    'text'=>$Content,
+                    'sex'=>$info['sex'],
+                    'openid'=>$FromUserName,
+                    'time'=>$CreateTime,
+                ];
+                DB::table('xu')->insert($TextData);
         }else if($MsgType=='voice'){
             //语音下载
             $voUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
@@ -108,8 +131,8 @@ class IndexController extends Controller
             $voFileInfo=$headers['Content-disposition'][0];
             $voFileName=rtrim(substr($voFileInfo,-20),'""');
             $newVoFileName=date('Y-m-d H:i:s').$voFileName;
+            ////内容写入磁盘文件 默认写入storage/app/
             $res1=Storage::put($newVoFileName,$voStr->getBody());
-            //print_r($res);
             if($res1=='1'){
                 //echo 11;
                 $voiceData=[
@@ -117,22 +140,8 @@ class IndexController extends Controller
                     'openid'=>$FromUserName,
                     'voice'=>$newVoFileName
                 ];
-                //echo 33;
-                $voRes=DB::table('voice')->insert($voiceData);
+                DB::table('voice')->insert($voiceData);
             }
-
-            /*
-            $voTime=time();
-            $voStr=file_get_contents($voUrl);
-            file_put_contents("/wwwroot/1809a_shop/voice/$voTime.mp3",$voStr,FILE_APPEND);
-            $voiceData=[
-                'nickname'=>$name,
-                'openid'=>$FromUserName,
-                'voice'=>'/wwwroot/1809a_shop/voice/'.$voTime.'.mp3'
-            ];
-            //echo 33;
-            DB::table('voice')->insert($voiceData);
-            */
         }else if($MsgType=='image'){
             //图片下载
             $imgUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
@@ -143,8 +152,8 @@ class IndexController extends Controller
             $fileInfo=$headers['Content-disposition'][0];
             $fileName=rtrim(substr($fileInfo,-20),'""');
             $newFileName='/wwwroot/1809a_shop/img/'.date('Y-m-d H:i:s').$fileName;
+            //内容写入磁盘文件 默认写入storage/app/
             $res2=Storage::put($newFileName,$imgStr->getBody());
-            //print_r($res);
             if($res2=='1'){
                 //echo 11;exit;
                 $imgData=[
@@ -152,27 +161,13 @@ class IndexController extends Controller
                     'openid'=>$FromUserName,
                     'img'=>$newFileName
                 ];
-                //print_r($imgData);
-                $myRes=DB::table('image')->insert($imgData);
+                DB::table('image')->insert($imgData);
             }
-
-            /*
-            $imgTime=date('Y-m-d H:i:s',time());
-            $imgStr=file_get_contents($imgUrl);
-            file_put_contents("/wwwroot/1809a_shop/img/$imgTime.jpg",$imgStr,FILE_APPEND);
-            $imgData=[
-                'nickname'=>$name,
-                'openid'=>$FromUserName,
-                'img'=>'/wwwroot/1809a_shop/img/'.$imgTime.'.jpg'
-            ];
-            DB::table('image')->insert($imgData);
-            //echo 33;exit;
-            */
         }
 
     }
 
-    //获取accessToken
+    /**获取accessToken*/
     public function accessToken(){
         $key='aa';
         $token=Redis::get($key);
@@ -201,7 +196,7 @@ class IndexController extends Controller
 
     }
 
-    //一级菜单
+    /**一级菜单*/
     public function custom()
     {
         $access = $this->accessToken();
