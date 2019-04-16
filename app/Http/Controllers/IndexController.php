@@ -149,7 +149,7 @@ class IndexController extends Controller
             //获取文件名
             $voFileInfo=$headers['Content-disposition'][0];
             $voFileName=rtrim(substr($voFileInfo,-20),'""');
-            $newVoFileName=date('Y-m-d H:i:s').$voFileName;
+            $newVoFileName='/storage/app/'.date('Y-m-d H:i:s').$voFileName;
             ////内容写入磁盘文件 默认写入storage/app/
             $res1=Storage::put($newVoFileName,$voStr->getBody());
             if($res1=='1'){
@@ -170,7 +170,7 @@ class IndexController extends Controller
             //获取文件名
             $fileInfo=$headers['Content-disposition'][0];
             $fileName=rtrim(substr($fileInfo,-20),'""');
-            $newFileName='/wwwroot/1809a_shop/img/'.date('Y-m-d H:i:s').$fileName;
+            $newFileName='/storage/app/'.date('Y-m-d H:i:s').$fileName;
             //内容写入磁盘文件 默认写入storage/app/
             $res2=Storage::put($newFileName,$imgStr->getBody());
             if($res2=='1'){
