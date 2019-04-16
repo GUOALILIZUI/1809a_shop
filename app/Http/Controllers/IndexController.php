@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Uri;
+use Illuminate\Support\Facades\Storage;
 
 class IndexController extends Controller
 {
@@ -100,7 +101,27 @@ class IndexController extends Controller
         }else if($MsgType=='voice'){
             //语音下载
             $voUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
-            //print_r($XuUrl);
+            $voStr=$client->get(new Uri($voUrl));
+            //获取响应头信息
+            $headers=$voStr->getHeaders();
+            //获取文件名
+            $voFileInfo=$headers['Content-disposition'][0];
+            $voFileName=rtrim(substr($voFileInfo,-20),'""');
+            $newVoFileName=date('Y-m-d H:i:s').$voFileName;
+            $res1=Storage::put($newVoFileName,$voStr->getBody());
+            //print_r($res);
+            if($res1=='1'){
+                //echo 11;
+                $voiceData=[
+                    'nickname'=>$name,
+                    'openid'=>$FromUserName,
+                    'voice'=>$newVoFileName
+                ];
+                //echo 33;
+                $voRes=DB::table('voice')->insert($voiceData);
+            }
+
+            /*
             $voTime=time();
             $voStr=file_get_contents($voUrl);
             file_put_contents("/wwwroot/1809a_shop/voice/$voTime.mp3",$voStr,FILE_APPEND);
@@ -109,16 +130,33 @@ class IndexController extends Controller
                 'openid'=>$FromUserName,
                 'voice'=>'/wwwroot/1809a_shop/voice/'.$voTime.'.mp3'
             ];
+            //echo 33;
             DB::table('voice')->insert($voiceData);
+            */
         }else if($MsgType=='image'){
             //图片下载
             $imgUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
-            //$imgStr=$client->get(new Uri($url));
+            $imgStr=$client->get(new Uri($imgUrl));
             //获取响应头信息
-            //$headers=$imgStr->getHeaders();
-            //print_r($headers);exit;
+            $headers=$imgStr->getHeaders();
             //获取文件名
-            //$fileInfo=$headers['Content-disposition'][0];
+            $fileInfo=$headers['Content-disposition'][0];
+            $fileName=rtrim(substr($fileInfo,-20),'""');
+            $newFileName='/wwwroot/1809a_shop/img/'.date('Y-m-d H:i:s').$fileName;
+            $res2=Storage::put($newFileName,$imgStr->getBody());
+            //print_r($res);
+            if($res2=='1'){
+                //echo 11;exit;
+                $imgData=[
+                    'nickname'=>$name,
+                    'openid'=>$FromUserName,
+                    'img'=>$newFileName
+                ];
+                //print_r($imgData);
+                $myRes=DB::table('image')->insert($imgData);
+            }
+
+            /*
             $imgTime=date('Y-m-d H:i:s',time());
             $imgStr=file_get_contents($imgUrl);
             file_put_contents("/wwwroot/1809a_shop/img/$imgTime.jpg",$imgStr,FILE_APPEND);
@@ -129,6 +167,7 @@ class IndexController extends Controller
             ];
             DB::table('image')->insert($imgData);
             //echo 33;exit;
+            */
         }
 
     }
@@ -137,9 +176,9 @@ class IndexController extends Controller
     public function accessToken(){
         $key='aa';
         $token=Redis::get($key);
-        if($token){
+        //if($token){
 
-        }else{
+        //}else{
             $appId="wxdd0d451ebdddd4f9";
             $app_secret="3a0980e46f62a1f9b759fa11adaab484";
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$app_secret";
@@ -154,8 +193,8 @@ class IndexController extends Controller
             //Redis::get($key);
             Redis::expire($key,3600);
             $token=$arr['access_token'];
-            print_r($token);
-        }
+            //print_r($token);
+        //}
         return $token;
 
 
