@@ -114,6 +114,15 @@ class IndexController extends Controller
                         <Content><![CDATA[$text]]></Content>
                    </xml>";
                 echo $xmlStr;
+                //如果文本就入库
+                $TextData=[
+                    'nickname'=>$name,
+                    'text'=>$Content,
+                    'sex'=>$info['sex'],
+                    'openid'=>$FromUserName,
+                    'time'=>$CreateTime,
+                ];
+                DB::table('xu')->insert($TextData);
             }else{
                 $text="你的城市名是乱写的！！！";
                 $time=time();
@@ -129,15 +138,7 @@ class IndexController extends Controller
             }
 
 
-            //如果文本就入库
-                $TextData=[
-                    'nickname'=>$name,
-                    'text'=>$Content,
-                    'sex'=>$info['sex'],
-                    'openid'=>$FromUserName,
-                    'time'=>$CreateTime,
-                ];
-                DB::table('xu')->insert($TextData);
+
         }else if($MsgType=='voice'){
             //语音下载
             $voUrl="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$MediaId";
