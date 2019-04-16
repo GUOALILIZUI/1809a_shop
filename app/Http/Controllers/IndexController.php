@@ -95,14 +95,15 @@ class IndexController extends Controller
             $weaStr=file_get_contents($weaUrl);
             $weaInfo=json_decode($weaStr,true);
             //print_r($weaInfo);exit;
-            $city=$weaInfo['HeWeather6'][0]['basic']['location']; //城市
-            $wind_dir=$weaInfo['HeWeather6'][0]['now']['wind_dir']; //风力
-            $wind_sc=$weaInfo['HeWeather6'][0]['now']['wind_sc']; //风向
-            $tmp=$weaInfo['HeWeather6'][0]['now']['tmp']; //温度
+
             $status=$weaInfo['HeWeather6'][0]['status']; //状态
 
             //回复消息
             if($status=='ok'){
+                $city=$weaInfo['HeWeather6'][0]['basic']['location']; //城市
+                $wind_dir=$weaInfo['HeWeather6'][0]['now']['wind_dir']; //风力
+                $wind_sc=$weaInfo['HeWeather6'][0]['now']['wind_sc']; //风向
+                $tmp=$weaInfo['HeWeather6'][0]['now']['tmp']; //温度
                 $text='城市：'.$city."\n".'风力：'.$wind_sc."\n".'风向：'.$wind_dir."\n".'温度：'.$tmp."\n";
                 $time=time();
                 $xmlStr="
