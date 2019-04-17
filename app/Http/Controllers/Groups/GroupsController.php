@@ -71,7 +71,7 @@ class GroupsController extends Controller
             "touser"=>$openIdInfo,
             "msgtype"=>"text",
             "text"=>array(
-                "content"=>"小鸭子嘎嘎嘎嘎"
+                "content"=>"小喵喵喵喵"
             )
         );
         $groupsStr=json_encode($arr,JSON_UNESCAPED_UNICODE);
