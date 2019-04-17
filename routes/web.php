@@ -30,3 +30,8 @@ Route::any('custom','IndexController@custom');
 
 //群发
 Route::any('GroupsUser','Groups\GroupsController@GroupsUser');
+
+//微信支付
+Route::get('pay','WeiXin\WeiXinPayController@pay');
+Route::post('payBack','WeiXin\WeiXinPayController@payBack');
+
