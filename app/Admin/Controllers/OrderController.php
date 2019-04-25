@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Model\UserModel;
+use App\Model\OrderModel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class UserController extends Controller
+class OrderController extends Controller
 {
     use HasResourceActions;
 
@@ -79,14 +79,14 @@ class UserController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new UserModel);
+        $grid = new Grid(new OrderModel);
 
-        $grid->id('Id');
-        $grid->name('Name');
-        $grid->img('Img');
-        $grid->sex('Sex');
-        $grid->openid('Openid');
-        $grid->time('Time');
+        $grid->order_id('Order id');
+        $grid->order_sn('Order sn');
+        $grid->total_price('Total price');
+        $grid->uid('Uid');
+        $grid->order_status('Order status');
+        $grid->ctime('Ctime');
 
         return $grid;
     }
@@ -99,14 +99,14 @@ class UserController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(UserModel::findOrFail($id));
+        $show = new Show(OrderModel::findOrFail($id));
 
-        $show->id('Id');
-        $show->name('Name');
-        $show->img('Img');
-        $show->sex('Sex');
-        $show->openid('Openid');
-        $show->time('Time');
+        $show->order_id('Order id');
+        $show->order_sn('Order sn');
+        $show->total_price('Total price');
+        $show->uid('Uid');
+        $show->order_status('Order status');
+        $show->ctime('Ctime');
 
         return $show;
     }
@@ -118,13 +118,14 @@ class UserController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new UserModel);
+        $form = new Form(new OrderModel);
 
-        $form->text('name', 'Name');
-        $form->image('img', 'Img');
-        $form->text('sex', 'Sex');
-        $form->text('openid', 'Openid');
-        $form->number('time', 'Time');
+        $form->number('order_id', 'Order id');
+        $form->text('order_sn', 'Order sn');
+        $form->number('total_price', 'Total price');
+        $form->number('uid', 'Uid');
+        $form->number('order_status', 'Order status')->default(1);
+        $form->number('ctime', 'Ctime');
 
         return $form;
     }

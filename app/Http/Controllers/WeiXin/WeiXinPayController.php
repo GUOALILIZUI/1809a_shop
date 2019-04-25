@@ -39,6 +39,7 @@ class WeiXinPayController extends Controller
         $xml=$this->ToXml();  //将数组转为xml
         $res=$this->postXmlCurl($xml,$this->placeUrl,$useCert=false,$second=30);
         $data=simplexml_load_string($res);
+        //var_dump($data);
         /*
         echo 'return_code: '.$data->return_code;echo '<br>';
 		echo 'return_msg: '.$data->return_msg;echo '<br>';
@@ -60,8 +61,6 @@ class WeiXinPayController extends Controller
 
 
     }
-
-
 
     protected function ToXml()
     {
