@@ -207,7 +207,7 @@ class IndexController extends Controller
             //Redis::get($key);
             Redis::expire($key,3600);
             $token=$arr['access_token'];
-            //print_r($token);
+            print_r($token);
         }
         return $token;
 
