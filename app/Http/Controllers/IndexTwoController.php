@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Support\Facades\Storage;
 
-class IndexController extends Controller
+class IndexTwoController extends Controller
 {
     /**测试*/
     public function Info(){
