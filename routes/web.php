@@ -35,3 +35,8 @@ Route::any('GroupsUser','Groups\GroupsController@GroupsUser');
 Route::get('pay','WeiXin\WeiXinPayController@pay');
 Route::post('payBack','WeiXin\WeiXinPayController@payBack');
 
+
+
+Route::any('img','Source\SourceController@img');
+Route::any('index','Source\SourceController@index');
+
