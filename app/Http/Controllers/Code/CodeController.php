@@ -70,7 +70,7 @@ class CodeController extends Controller
         $nonceStr = Str::random(10);
         $time = time();
         $current_url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] .$_SERVER['REQUEST_URI'];
-        print_r($current_url);exit;
+        print_r($_SERVER['REQUEST_SCHEME']);exit;
         $string1 = "jsapi_ticket=$ticket1&noncestr=$nonceStr&timestamp=$time&url=$current_url";
         $sign = sha1($string1);
         $signInfo=[
