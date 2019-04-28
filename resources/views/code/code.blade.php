@@ -20,6 +20,16 @@
 </html>
 <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
+    var qrcode = new QRCode('qrcode',{
+        text:'{{$ticketUrl}}',
+        width:256,
+        height:256,
+        colorDark : '#000000',
+        colorLight : '#ffffff',
+        correctLevel : QRCode.CorrectLevel.H
+    });
+
+
     wx.config({
         debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId:"{{$signInfo['appId']}}", // 必填，公众号的唯一标识
