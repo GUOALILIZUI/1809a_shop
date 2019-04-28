@@ -27,65 +27,6 @@ class IndexController extends Controller
         file_put_contents("logs/check.log",$str,FILE_APPEND);
         $xmlObj=simplexml_load_string($content);
 
-        $ToUserName=$xmlObj->ToUserName;
-        $FromUserName=$xmlObj->FromUserName;
-        $CreateTime=$xmlObj->CreateTime;
-        $MsgType=$xmlObj->MsgType;
-        $Event=$xmlObj->Event;
-        $Content=$xmlObj->Content;
-        $MediaId=$xmlObj->MediaId;
-
-        //用户信息
-        $access=$this->accessToken();
-        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$FromUserName&lang=zh_CN";
-        $response=file_get_contents($url);
-        $info=json_decode($response,true);
-        $name=$info['nickname'];
-
-        //提示语
-        if($Event=='subscribe'){
-           $data=DB::table('wx')->where('openid',$FromUserName)->count();
-           //print_r($data);die;
-           if($data=='0'){
-               $weiInfo=[
-                   'name'=>$name,
-                   'sex'=>$info['sex'],
-                   'img'=>$info['headimgurl'],
-                   'openid'=>$info['openid'],
-                   'time'=>time()
-               ];
-               //print_r($weiInfo);
-               DB::table('wx')->insert($weiInfo);
-
-               //回复消息
-               $time=time();
-               $content="关注本公众号成功";
-               $xmlStr="
-                   <xml>
-                        <ToUserName><![CDATA[$FromUserName]]></ToUserName>
-                        <FromUserName><![CDATA[$ToUserName]]></FromUserName>
-                        <CreateTime>$time</CreateTime>
-                        <MsgType><![CDATA[text]]></MsgType>
-                        <Content><![CDATA[$content]]></Content>
-                   </xml>";
-               echo $xmlStr;
-
-           }else{
-               $time=time();
-               $content="欢迎".$name."回来";
-               $xmlStr="
-                   <xml>
-                        <ToUserName><![CDATA[$FromUserName]]></ToUserName>
-                        <FromUserName><![CDATA[$ToUserName]]></FromUserName>
-                        <CreateTime>$time</CreateTime>
-                        <MsgType><![CDATA[text]]></MsgType>
-                        <Content><![CDATA[$content]]></Content>
-                   </xml>
-               ";
-               echo $xmlStr;
-           }
-
-        }
 
     }
 

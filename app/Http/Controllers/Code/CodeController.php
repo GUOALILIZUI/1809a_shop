@@ -46,10 +46,10 @@ class CodeController extends Controller
         $url="https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=$accessToken";
         $arr=array(
             "expire_seconds"=>604800,
-            "action_name"=>"QR_STR_SCENE",
+            "action_name"=>"QR_SCENE",
             "action_info"=>array(
                 "scene"=>array(
-                    "scene_str"=>"AA"
+                    "scene_id"=>1
                 )
             )
         );
