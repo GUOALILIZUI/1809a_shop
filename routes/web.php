@@ -40,3 +40,6 @@ Route::post('payBack','WeiXin\WeiXinPayController@payBack');
 Route::any('img','Source\SourceController@img');
 Route::any('index','Source\SourceController@index');
 
+
+Route::any('code','Code\CodeController@code');
+
