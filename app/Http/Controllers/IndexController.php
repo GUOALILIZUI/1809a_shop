@@ -96,6 +96,7 @@ class IndexController extends Controller
             $title=$name."扫码成功啦";
             $description="喵喵喵";
             $picurl="http://img4.imgtn.bdimg.com/it/u=4043356389,1557346799&fm=26&gp=0.jpg";
+            $url1="https://1809guomingyang.comcto.com/code";
             $xmlStr="
                    <xml>
                       <ToUserName><![CDATA[$FromUserName]]></ToUserName>
@@ -108,7 +109,7 @@ class IndexController extends Controller
                           <Title><![CDATA[$title]]></Title>
                           <Description><![CDATA[$description]]></Description>
                           <PicUrl><![CDATA[$picurl]]></PicUrl>
-                          <Url><![CDATA[url]]></Url>
+                          <Url><![CDATA[$url1]]></Url>
                         </item>
                       </Articles>
                    </xml>
@@ -191,24 +192,5 @@ class IndexController extends Controller
 
     }
 
-    public function getJsapiTicket()
-    {
-        $key = 'wx_jsapi_ticket';
-        $ticket = Redis::get($key);
-        if($ticket){
-            return $ticket;
-        }else{
-            $access_token = $this->accessToken();
-            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$access_token&type=jsapi";
-            $ticket_info = json_decode(file_get_contents($url),true);
-            if(isset($ticket_info['ticket'])){
-                Redis::set($key,$ticket_info['ticket']);
-                Redis::expire($key,3600);
-                return $ticket_info['ticket'];
-            }else{
-                return false;
-            }
-        }
-    }
 
 }

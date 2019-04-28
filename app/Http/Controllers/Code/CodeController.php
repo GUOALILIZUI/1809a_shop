@@ -102,8 +102,7 @@ class CodeController extends Controller
 
         //通过ticket换取二维码
         $ticketUrl="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=$ticket";
-//        print_r($ticketUrl);exit;
-        return view('code.code',['signInfo'=>$signInfo]);
+        return view('code.code',['signInfo'=>$signInfo,'ticketUrl'=>$ticketUrl]);
 
     }
 }
