@@ -27,6 +27,8 @@ Route::any('accessToken','IndexController@accessToken');
 //自定义菜单
 Route::any('custom','IndexController@custom');
 
+Route::any('we','IndexController@we');
+
 
 //群发
 Route::any('GroupsUser','Groups\GroupsController@GroupsUser');

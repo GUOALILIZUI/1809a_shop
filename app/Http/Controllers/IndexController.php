@@ -238,9 +238,39 @@ class IndexController extends Controller
             print_r($token);
         }
         return $token;
+    }
 
+    /**一级菜单*/
+    public function custom()
+    {
+        $access = $this->accessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access";
+        $arr = array(
+            "button"=>array(
+                        array(
+                            "type"=>"view",
+                            "name"=>"最新福利",
+                            "url"=>"http://www.baidu.com/"
+                        )
+            )
+        );
+        $strJson=json_encode($arr,JSON_UNESCAPED_UNICODE);
+        $client=new Client();
+        $response =$client->request('POST',$url,[
+            'body'  => $strJson,
+        ]);
+        $objJson=$response->getBody();
+        $info=json_decode($objJson,true);
+        print_r($info);
 
-
+    }
+    /**微信授权*/
+    public function we(Request $request){
+        $appId="wxdd0d451ebdddd4f9";
+        $secret="3a0980e46f62a1f9b759fa11adaab484";
+        $redirect_uri='https://1809guomingyang.comcto.com/we';
+       $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appId&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+       print_r($url);
     }
 
 
