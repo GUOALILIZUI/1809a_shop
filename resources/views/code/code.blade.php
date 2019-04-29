@@ -45,8 +45,8 @@
         $('#but').click(function() {
 
             wx.updateAppMessageShareData({
-                title: '扫一扫', // 分享标题
-                desc: '二维码', // 分享描述
+                title: 'cc', // 分享标题
+                desc: 'xx', // 分享描述
                 link: 'https://1809guomingyang.comcto.com/cc', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                 imgUrl: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGA8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyWGpIaEExWlpjNGwxV3lfZXhzY3AAAgQihcVcAwSAOgkA', // 分享图标
                 success: function () {

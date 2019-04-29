@@ -6,15 +6,16 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/qrcode.min.js"></script>
 </head>
 <body>
 iPhone8
 <input style="background: pink;border: 0px;" type="button" name="" id="but" value="分享">
 </body>
 </html>
+<script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
-
-
 
     wx.config({
         debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
