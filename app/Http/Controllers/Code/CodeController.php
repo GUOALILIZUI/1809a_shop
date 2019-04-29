@@ -23,7 +23,7 @@ class CodeController extends Controller
             $appId="wxdd0d451ebdddd4f9";
             $app_secret="3a0980e46f62a1f9b759fa11adaab484";
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$app_secret";
-            //var_dump($url);
+            //var_dump($we);
             $response=file_get_contents($url);
             //echo $response;echo '<hr>';
             $arr=json_decode($response,true);
@@ -71,7 +71,7 @@ class CodeController extends Controller
         $time = time();
         $current_url = "https" . '://' . $_SERVER['HTTP_HOST'] .$_SERVER['REQUEST_URI'];
 //        print_r($_SERVER['REQUEST_SCHEME']);exit;
-        $string1 = "jsapi_ticket=$ticket1&noncestr=$nonceStr&timestamp=$time&url=$current_url";
+        $string1 = "jsapi_ticket=$ticket1&noncestr=$nonceStr&timestamp=$time&we=$current_url";
         $sign = sha1($string1);
         $signInfo=[
             'appId'=>'wxdd0d451ebdddd4f9',

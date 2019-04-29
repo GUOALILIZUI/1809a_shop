@@ -93,7 +93,7 @@ class GroupController extends Controller
 
         }else{
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WEIXIN_APPID_0').'&secret='.env('WEIXIN_MCH_KEY').'";
-            //var_dump($url);
+            //var_dump($we);
             $response=file_get_contents($url);
             //echo $response;echo '<hr>';
             $arr=json_decode($response,true);

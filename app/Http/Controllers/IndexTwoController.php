@@ -232,7 +232,7 @@ class IndexTwoController extends Controller
                         array(
                             "type"=>"view",
                             "name"=>"百度度",
-                            "url"=>"http://www.baidu.com/"
+                            "we"=>"http://www.baidu.com/"
                         )
 
                     ),

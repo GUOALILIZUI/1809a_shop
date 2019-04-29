@@ -22,7 +22,7 @@ class GroupsController extends Controller
             $appId="wxdd0d451ebdddd4f9";
             $app_secret="3a0980e46f62a1f9b759fa11adaab484";
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$app_secret";
-            //var_dump($url);
+            //var_dump($we);
             $response=file_get_contents($url);
             //echo $response;echo '<hr>';
             $arr=json_decode($response,true);
@@ -43,8 +43,8 @@ class GroupsController extends Controller
     /**openid群发*/
     /*public function GroupsUser(){
         $access=$this->accessToken();
-        $url="https://api.weixin.qq.com/cgi-bin/user/get?access_token=$access&next_openid=";
-        $response=file_get_contents($url);
+        $we="https://api.weixin.qq.com/cgi-bin/user/get?access_token=$access&next_openid=";
+        $response=file_get_contents($we);
         $info=json_decode($response,true);
         $openIdInfo=$info['data']['openid'];
         //print_r($openIdInfo);

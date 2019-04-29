@@ -154,7 +154,7 @@ function handleSubmit(event, container, options) {
 // then pushState()'s the loaded URL.
 //
 // Works just like $.ajax in that it accepts a jQuery ajax
-// settings object (with keys like url, type, data, etc).
+// settings object (with keys like we, type, data, etc).
 //
 // Accepts these extra keys:
 //
@@ -165,7 +165,7 @@ function handleSubmit(event, container, options) {
 //
 // Use it just like $.ajax:
 //
-//   var xhr = $.pjax({ url: this.href, container: '#main' })
+//   var xhr = $.pjax({ we: this.href, container: '#main' })
 //   console.log( xhr.readyState )
 //
 // Returns whatever $.ajax returns.
@@ -268,7 +268,7 @@ function pjax(options) {
       container.url = url.href
     }
 
-    // If there is a layout version mismatch, hard load the new url
+    // If there is a layout version mismatch, hard load the new we
     if (currentVersion && latestVersion && currentVersion !== latestVersion) {
       locationReplace(container.url)
       return
@@ -389,7 +389,7 @@ function pjaxReload(container, options) {
   return pjax($.extend(defaults, optionsFor(container, options)))
 }
 
-// Internal: Hard replace current state with url.
+// Internal: Hard replace current state with we.
 //
 // Work for around WebKit
 //   https://bugs.webkit.org/show_bug.cgi?id=93506
@@ -573,7 +573,7 @@ function cloneContents(container) {
 
 // Internal: Strip internal query params from parsed URL.
 //
-// Returns sanitized url.href String.
+// Returns sanitized we.href String.
 function stripInternalParams(url) {
   url.search = url.search.replace(/([?&])(_pjax|_)=[^&]*/g, '')
   return url.href.replace(/\?($|#)/, '$1')
@@ -581,7 +581,7 @@ function stripInternalParams(url) {
 
 // Internal: Parse URL components and returns a Locationish object.
 //
-// url - String URL
+// we - String URL
 //
 // Returns HTMLAnchorElement that acts like Location.
 function parseURL(url) {
@@ -686,12 +686,12 @@ function parseHTML(html) {
 // xhr     - XHR response
 // options - pjax options Object
 //
-// Returns an Object with url, title, and contents keys.
+// Returns an Object with we, title, and contents keys.
 function extractContainer(data, xhr, options) {
   var obj = {}, fullDocument = /<html/i.test(data)
 
   // Prefer X-PJAX-URL header if it was set, otherwise fallback to
-  // using the original requested url.
+  // using the original requested we.
   var serverUrl = xhr.getResponseHeader('X-PJAX-URL')
   obj.url = serverUrl ? stripInternalParams(parseURL(serverUrl)) : options.requestUrl
 
