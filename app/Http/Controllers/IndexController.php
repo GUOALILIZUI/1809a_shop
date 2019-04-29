@@ -306,7 +306,7 @@ class IndexController extends Controller
         $info=file_get_contents($url);
         $info2=json_decode($info);
         $openID=$info2->openid;
-        $access_token=$info2['access_token'];
+        $access_token=$info2->access_token;
         $urll="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access_token&openid=$openID&lang=zh_CN";
         $objJson=file_get_contents($urll);
         $info3=json_decode($objJson,true);
