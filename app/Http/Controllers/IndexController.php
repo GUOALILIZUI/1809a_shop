@@ -28,6 +28,7 @@ class IndexController extends Controller
 
         $ToUserName=$xmlObj->ToUserName;
         $FromUserName=$xmlObj->FromUserName;
+
         $CreateTime=$xmlObj->CreateTime;
         $MsgType=$xmlObj->MsgType;
         $Event=$xmlObj->Event;
@@ -160,9 +161,11 @@ class IndexController extends Controller
             }
         }else if($MsgType=='text'){
             $goodsInfo=DB::table('shop_goods')->where('goods_name','like',"%$Content%")->first();
-            $title=$goodsInfo->goods_name;
+            $goods_name=$goodsInfo->goods_name;
+            $pice=$goodsInfo->goods_selfprice;
+            $title=$goods_name.'  ￥：'.$pice;
             $description='全天下最好的商品';
-            $picurl=$goodsInfo->goods_selfprice;
+            $picurl=$goodsInfo->goods_img;
             $url1="https://1809guomingyang.comcto.com/content";
             $xmlStr="<xml>
                       <ToUserName><![CDATA[$FromUserName]]></ToUserName>
