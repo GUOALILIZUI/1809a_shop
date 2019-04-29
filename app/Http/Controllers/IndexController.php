@@ -168,7 +168,7 @@ class IndexController extends Controller
                 $title=$goods_name.'  ￥：'.$pice;
                 $description='全天下最好的商品';
                 $picurl='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
-                $url1="https://1809guomingyang.comcto.com";
+                $url1='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
                 $xmlStr="<xml>
                       <ToUserName><![CDATA[$FromUserName]]></ToUserName>
                       <FromUserName><![CDATA[$ToUserName]]></FromUserName>
@@ -186,7 +186,7 @@ class IndexController extends Controller
                    </xml>";
                 echo $xmlStr;
             }else{
-                $goodsInfo2=DB::table('shop_goods')->orderBy('goods_salenum','asc')->first();
+                $goodsInfo2=DB::table('shop_goods')->orderBy('goods_salenum','desc')->first();
                 $goods_name2=$goodsInfo2->goods_name;
                 $pice2=$goodsInfo2->goods_selfprice;
                 $title=$goods_name2.'  ￥：'.$pice2;
@@ -233,7 +233,7 @@ class IndexController extends Controller
             $key='aa';
             Redis::set($key,$arr['access_token']);
             //Redis::get($key);
-            Redis::expire($key,7200);
+            Redis::expire($key,10500);
             $token=$arr['access_token'];
             print_r($token);
         }
