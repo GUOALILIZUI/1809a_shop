@@ -9,6 +9,7 @@
 </head>
 <body>
 iPhone8
+<input style="background: pink;border: 0px;" type="button" name="" id="but" value="分享">
 </body>
 </html>
 <script>
