@@ -97,8 +97,7 @@ class IndexController extends Controller
             $description="喵喵喵";
             $picurl="http://img4.imgtn.bdimg.com/it/u=4043356389,1557346799&fm=26&gp=0.jpg";
             $url1="https://1809guomingyang.comcto.com/code";
-            $xmlStr="
-                   <xml>
+            $xmlStr="<xml>
                       <ToUserName><![CDATA[$FromUserName]]></ToUserName>
                       <FromUserName><![CDATA[$ToUserName]]></FromUserName>
                       <CreateTime>$time</CreateTime>
@@ -112,8 +111,7 @@ class IndexController extends Controller
                           <Url><![CDATA[$url1]]></Url>
                         </item>
                       </Articles>
-                   </xml>
-               ";
+                   </xml>";
             echo $xmlStr;
         }
         $client=new Client;
@@ -160,6 +158,28 @@ class IndexController extends Controller
                 ];
                 DB::table('image')->insert($imgData);
             }
+        }else if($MsgType=='text'){
+            $goodsInfo=DB::table('shop_goods')->where('goods_name','like',"%$Content%")->first();
+            $title=$goodsInfo->goods_name;
+            $description='全天下最好的商品';
+            $picurl=$goodsInfo->goods_selfprice;
+            $url1="https://1809guomingyang.comcto.com/content";
+            $xmlStr="<xml>
+                      <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                      <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                      <CreateTime>$time</CreateTime>
+                      <MsgType><![CDATA[news]]></MsgType>
+                      <ArticleCount>1</ArticleCount>
+                      <Articles>
+                        <item>
+                          <Title><![CDATA[$title]]></Title>
+                          <Description><![CDATA[$description]]></Description>
+                          <PicUrl><![CDATA[$picurl]]></PicUrl>
+                          <Url><![CDATA[$url1]]></Url>
+                        </item>
+                      </Articles>
+                   </xml>";
+            echo $xmlStr;
         }
 
     }
