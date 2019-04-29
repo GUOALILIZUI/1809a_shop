@@ -250,7 +250,7 @@ class IndexController extends Controller
                         array(
                             "type"=>"view",
                             "name"=>"最新福利",
-                            "we"=>"https://1809guomingyang.comcto.com/we"
+                            "url"=>"https://1809guomingyang.comcto.com/we"
                         )
             )
         );
