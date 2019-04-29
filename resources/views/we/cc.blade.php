@@ -12,14 +12,7 @@ iPhone8
 </body>
 </html>
 <script>
-    var qrcode = new QRCode('qrcode',{
-        text:'{{$ticketUrl}}',
-        width:256,
-        height:256,
-        colorDark : '#000000',
-        colorLight : '#ffffff',
-        correctLevel : QRCode.CorrectLevel.H
-    });
+
 
 
     wx.config({
