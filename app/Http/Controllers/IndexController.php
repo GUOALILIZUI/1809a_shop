@@ -261,7 +261,6 @@ class IndexController extends Controller
         ]);
         $objJson=$response->getBody();
         $info=json_decode($objJson,true);
-        print_r($info);
 
     }
     /**微信授权*/
