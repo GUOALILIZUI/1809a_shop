@@ -222,9 +222,9 @@ class IndexController extends Controller
     public function accessToken(){
         $key='aa';
         $token=Redis::get($key);
-        if($token){
-
-        }else{
+//        if($token){
+//
+//        }else{
             $appId="wxdd0d451ebdddd4f9";
             $app_secret="3a0980e46f62a1f9b759fa11adaab484";
             $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$app_secret";
@@ -239,7 +239,7 @@ class IndexController extends Controller
             Redis::expire($key,7600);
             $token=$arr['access_token'];
             print_r($token);
-        }
+//        }
         return $token;
     }
 
@@ -274,6 +274,7 @@ class IndexController extends Controller
         $secret="3a0980e46f62a1f9b759fa11adaab484";
         $redirect_uri='https://1809guomingyang.comcto.com/weshow';
        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appId&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+       echo $url;
 
     }
 
@@ -303,11 +304,10 @@ class IndexController extends Controller
         $secret="3a0980e46f62a1f9b759fa11adaab484";
         $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appId&secret=$secret&code=$code&grant_type=authorization_code";
         $info=file_get_contents($url);
-        $info2=json_decode($info);
-        $openID=$info2->openid;
-
-        $access=$this->accessToken();
-        $urll="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$openID&lang=zh_CN";
+        $info2=json_decode($info,true);
+        $openID=$info2['openid'];
+        $access_token=$info2['access_token'];
+        $urll="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access_token&openid=$openID&lang=zh_CN";
         $objJson=file_get_contents($urll);
         $info3=json_decode($objJson,true);
         $nickname=$info3['nickname'];
