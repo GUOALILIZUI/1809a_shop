@@ -25,10 +25,10 @@ class IndexController extends Controller
         $str=$time.$content."\n";
         file_put_contents("logs/check.log",$str,FILE_APPEND);
         $xmlObj=simplexml_load_string($content);
+//        var_dump($xmlObj);exit;
 
         $ToUserName=$xmlObj->ToUserName;
         $FromUserName=$xmlObj->FromUserName;
-
         $CreateTime=$xmlObj->CreateTime;
         $MsgType=$xmlObj->MsgType;
         $Event=$xmlObj->Event;
@@ -161,6 +161,7 @@ class IndexController extends Controller
             }
         }else if($MsgType=='text'){
             $goodsInfo=DB::table('shop_goods')->where('goods_name','like',"%$Content%")->first();
+//            print_r($goodsInfo);exit;
             if($goodsInfo){
                 $goods_name=$goodsInfo->goods_name;
                 $pice=$goodsInfo->goods_selfprice;
@@ -186,9 +187,9 @@ class IndexController extends Controller
                 echo $xmlStr;
             }else{
                 $goodsInfo2=DB::table('shop_goods')->orderBy('goods_salenum','asc')->first();
-                $goods_name=$goodsInfo2->goods_name;
-                $pice=$goodsInfo2->goods_selfprice;
-                $title=$goods_name.'  ￥：'.$pice;
+                $goods_name2=$goodsInfo2->goods_name;
+                $pice2=$goodsInfo2->goods_selfprice;
+                $title=$goods_name2.'  ￥：'.$pice2;
                 $description='全天下最好的商品';
                 $picurl='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
                 $url1='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
