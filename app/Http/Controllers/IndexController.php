@@ -268,9 +268,13 @@ class IndexController extends Controller
     public function we(Request $request){
         $appId="wxdd0d451ebdddd4f9";
         $secret="3a0980e46f62a1f9b759fa11adaab484";
-        $redirect_uri='https://1809guomingyang.comcto.com/we';
+        $redirect_uri='https://1809guomingyang.comcto.com/weshow';
        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appId&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-       print_r($url);
+
+    }
+
+    public function weshow(){
+        var_dump($_GET);
     }
 
 
