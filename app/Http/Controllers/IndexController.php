@@ -168,7 +168,7 @@ class IndexController extends Controller
                 $title=$goods_name.'  ￥：'.$pice;
                 $description='全天下最好的商品';
                 $picurl='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
-                $url1="https://1809guomingyang.comcto.com";
+                $url1='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
                 $xmlStr="<xml>
                       <ToUserName><![CDATA[$FromUserName]]></ToUserName>
                       <FromUserName><![CDATA[$ToUserName]]></FromUserName>
