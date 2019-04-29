@@ -29,7 +29,6 @@
         correctLevel : QRCode.CorrectLevel.H
     });
 
-
     wx.config({
         debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId:"{{$signInfo['appId']}}", // 必填，公众号的唯一标识
@@ -48,7 +47,7 @@
             wx.updateAppMessageShareData({
                 title: '扫一扫', // 分享标题
                 desc: '二维码', // 分享描述
-                link: 'https://1809guomingyang.comcto.com/code', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                link: 'https://1809guomingyang.comcto.com/cc', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                 imgUrl: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGA8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyWGpIaEExWlpjNGwxV3lfZXhzY3AAAgQihcVcAwSAOgkA', // 分享图标
                 success: function () {
                     alert('分享成功')
