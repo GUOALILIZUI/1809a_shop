@@ -191,8 +191,8 @@ class IndexController extends Controller
                 $pice2=$goodsInfo2->goods_selfprice;
                 $title=$goods_name2.'  ￥：'.$pice2;
                 $description='全天下最好的商品';
-                $picurl='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
-                $url1='https://1809guomingyang.comcto.com';
+                $picurl='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo2->goods_img;
+                $url1='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo2->goods_img;
                 $xmlStr="<xml>
                       <ToUserName><![CDATA[$FromUserName]]></ToUserName>
                       <FromUserName><![CDATA[$ToUserName]]></FromUserName>
