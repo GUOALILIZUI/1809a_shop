@@ -248,12 +248,13 @@ class IndexController extends Controller
     {
         $access = $this->accessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access";
+        $curl="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxdd0d451ebdddd4f9&redirect_uri=https://1809guomingyang.comcto.com/weshow&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         $arr = array(
             "button"=>array(
                         array(
                             "type"=>"view",
                             "name"=>"最新福利",
-                            "url"=>"https://1809guomingyang.comcto.com/we"
+                            "url"=>$curl
                         )
             )
         );
@@ -273,7 +274,7 @@ class IndexController extends Controller
         $secret="3a0980e46f62a1f9b759fa11adaab484";
         $redirect_uri='https://1809guomingyang.comcto.com/weshow';
        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appId&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-        return view('we.we',['url'=>$url]);
+
     }
 
     public function getJsapiTicket()
