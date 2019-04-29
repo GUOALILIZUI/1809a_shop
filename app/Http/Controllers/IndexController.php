@@ -305,13 +305,30 @@ class IndexController extends Controller
         $info=file_get_contents($url);
         $info2=json_decode($info);
         $openID=$info2->openid;
+
         $access=$this->accessToken();
         $urll="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$openID&lang=zh_CN";
         $objJson=file_get_contents($urll);
         $info3=json_decode($objJson,true);
         $nickname=$info3['nickname'];
-        echo '欢迎'. $nickname.'正在跳转至福利页面';
-        header('Refresh:3;url=/cc');
+
+
+        $UserInfo=DB::table('suser')->where('openid',$openID)->first();
+        if($UserInfo){
+            echo '欢迎'. $nickname.'回来，正在跳转至福利页面';
+            header('Refresh:3;url=/cc');
+        }else{
+            $dd=[
+                'nickname'=>$nickname,
+                'sex'=>$info3['sex'],
+                'img'=>$info3['headimgurl'],
+                'openid'=>$info3['openid']
+            ];
+            DB::table('suser')->insert($dd);
+            echo '欢迎'. $nickname.'正在跳转至福利页面';
+            header('Refresh:3;url=/cc');
+        }
+
 
     }
 
