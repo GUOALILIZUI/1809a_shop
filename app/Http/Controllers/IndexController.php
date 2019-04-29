@@ -380,7 +380,9 @@ class IndexController extends Controller
         Redis::hset($hkey,'time',$time);
 
         $lkey='lqd';
-        Redis::lpush($lkey,$hkey);
+        Redis::rpush($lkey,$hkey);
+
+
 
 //        Redis::lrange($lkey,0,-1);
         echo 11;
