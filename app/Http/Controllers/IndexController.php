@@ -334,8 +334,6 @@ class IndexController extends Controller
 
     public function cc(){
         $ticket1=$this->getJsapiTicket();
-        $accessToken=$this->accessToken();
-
         $nonceStr = Str::random(10);
         $time = time();
         $current_url = "https" . '://' . $_SERVER['HTTP_HOST'] .$_SERVER['REQUEST_URI'];
