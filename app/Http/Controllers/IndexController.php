@@ -9,6 +9,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Support\Facades\Storage;
 use phpDocumentor\Reflection\File;
+use Illuminate\Support\Str;
+
 
 class IndexController extends Controller
 {
@@ -274,6 +276,26 @@ class IndexController extends Controller
         return view('we.we',['url'=>$url]);
     }
 
+    public function getJsapiTicket()
+    {
+        $key = 'wx_jsapi_ticket';
+        $ticket = Redis::get($key);
+        if($ticket){
+            return $ticket;
+        }else{
+            $access_token = $this->accessToken();
+            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$access_token&type=jsapi";
+            $ticket_info = json_decode(file_get_contents($url),true);
+            if(isset($ticket_info['ticket'])){
+                Redis::set($key,$ticket_info['ticket']);
+                Redis::expire($key,3600);
+                return $ticket_info['ticket'];
+            }else{
+                return false;
+            }
+        }
+    }
+
     public function weshow(){
         $code=$_GET['code'];
         $appId="wxdd0d451ebdddd4f9";
@@ -291,8 +313,23 @@ class IndexController extends Controller
         header('Refresh:3;url=/cc');
 
     }
+
     public function cc(){
-        return view('we.cc');
+        $ticket1=$this->getJsapiTicket();
+
+        $nonceStr = Str::random(10);
+        $time = time();
+        $current_url = "https" . '://' . $_SERVER['HTTP_HOST'] .$_SERVER['REQUEST_URI'];
+//        print_r($_SERVER['REQUEST_SCHEME']);exit;
+        $string1 = "jsapi_ticket=$ticket1&noncestr=$nonceStr&timestamp=$time&we=$current_url";
+        $sign = sha1($string1);
+        $signInfo=[
+            'appId'=>'wxdd0d451ebdddd4f9',
+            'timestamp'=>$time,
+            'nonceStr'=>$nonceStr,
+            'signature'=>$sign,
+        ];
+        return view('we.cc',['signInfo'=>$signInfo]);
     }
 
 
