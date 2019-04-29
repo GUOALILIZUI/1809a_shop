@@ -250,7 +250,7 @@ class IndexController extends Controller
                         array(
                             "type"=>"view",
                             "name"=>"最新福利",
-                            "we"=>"http://www.baidu.com/"
+                            "we"=>"https://1809guomingyang.comcto.com/we"
                         )
             )
         );
@@ -274,8 +274,14 @@ class IndexController extends Controller
     }
 
     public function weshow(){
-        $arr=$_GET['code'];
-        print_r($arr);
+        $code=$_GET['code'];
+        $appId="wxdd0d451ebdddd4f9";
+        $secret="3a0980e46f62a1f9b759fa11adaab484";
+        $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appId&secret=$secret&code=$code&grant_type=authorization_code";
+        $info=file_get_contents($url);
+        $info2=json_decode($info);
+
+
     }
 
 
