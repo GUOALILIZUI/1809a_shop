@@ -161,13 +161,14 @@ class IndexController extends Controller
             }
         }else if($MsgType=='text'){
             $goodsInfo=DB::table('shop_goods')->where('goods_name','like',"%$Content%")->first();
-            $goods_name=$goodsInfo->goods_name;
-            $pice=$goodsInfo->goods_selfprice;
-            $title=$goods_name.'  ￥：'.$pice;
-            $description='全天下最好的商品';
-            $picurl='https://1809guomingyang.comcto.com/goodsimg/20181129/99373568dad2833fcdbc6c4e22c0fceb.jpg';
-            $url1="https://1809guomingyang.comcto.com";
-            $xmlStr="<xml>
+            if($goodsInfo){
+                $goods_name=$goodsInfo->goods_name;
+                $pice=$goodsInfo->goods_selfprice;
+                $title=$goods_name.'  ￥：'.$pice;
+                $description='全天下最好的商品';
+                $picurl='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
+                $url1="https://1809guomingyang.comcto.com";
+                $xmlStr="<xml>
                       <ToUserName><![CDATA[$FromUserName]]></ToUserName>
                       <FromUserName><![CDATA[$ToUserName]]></FromUserName>
                       <CreateTime>$time</CreateTime>
@@ -182,7 +183,33 @@ class IndexController extends Controller
                         </item>
                       </Articles>
                    </xml>";
-            echo $xmlStr;
+                echo $xmlStr;
+            }else{
+                $goodsInfo2=DB::table('shop_goods')->orderBy('goods_salenum','asc')->first();
+                $goods_name=$goodsInfo2->goods_name;
+                $pice=$goodsInfo2->goods_selfprice;
+                $title=$goods_name.'  ￥：'.$pice;
+                $description='全天下最好的商品';
+                $picurl='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
+                $url1='https://1809guomingyang.comcto.com/goodsimg/'.$goodsInfo->goods_img;
+                $xmlStr="<xml>
+                      <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                      <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                      <CreateTime>$time</CreateTime>
+                      <MsgType><![CDATA[news]]></MsgType>
+                      <ArticleCount>1</ArticleCount>
+                      <Articles>
+                        <item>
+                          <Title><![CDATA[$title]]></Title>
+                          <Description><![CDATA[$description]]></Description>
+                          <PicUrl><![CDATA[$picurl]]></PicUrl>
+                          <Url><![CDATA[$url1]]></Url>
+                        </item>
+                      </Articles>
+                   </xml>";
+                echo $xmlStr;
+            }
+
         }
 
     }
