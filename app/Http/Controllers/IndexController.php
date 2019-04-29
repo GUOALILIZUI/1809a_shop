@@ -383,6 +383,7 @@ class IndexController extends Controller
         Redis::lpush($lkey,$hkey);
 
 //        Redis::lrange($lkey,0,-1);
+        echo 11;
 
     }
 
