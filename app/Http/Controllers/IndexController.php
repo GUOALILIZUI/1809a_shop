@@ -336,7 +336,7 @@ class IndexController extends Controller
         $ticket1=$this->getJsapiTicket();
         $nonceStr = Str::random(10);
         $time = time();
-        $current_url = "https" . '://' . $_SERVER['HTTP_HOST'] .$_SERVER['REQUEST_URI'];
+        $current_url = "http" . '://' . $_SERVER['HTTP_HOST'] .$_SERVER['REQUEST_URI'];
         $string1 = "jsapi_ticket=$ticket1&noncestr=$nonceStr&timestamp=$time&we=$current_url";
         $sign = sha1($string1);
         $signInfo=[
