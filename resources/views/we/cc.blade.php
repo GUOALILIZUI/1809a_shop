@@ -8,7 +8,7 @@
     <title>Document</title>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/qrcode.min.js"></script>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+    <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 </head>
 <body>
 iPhone8
