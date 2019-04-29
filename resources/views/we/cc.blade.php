@@ -29,7 +29,7 @@ iPhone8
     //qrcode.clear();
     //qrcode.makeCode('new $wpayurl');
 
-   /* wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+    wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
         $('#but').click(function() {
             wx.updateAppMessageShareData({
                 title: 'cc', // 分享标题
@@ -41,5 +41,5 @@ iPhone8
                 }
             })
         })
-    });*/
+    });
 </script>
