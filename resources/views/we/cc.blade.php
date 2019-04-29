@@ -14,7 +14,6 @@ iPhone8
 <input style="background: pink;border: 0px;" type="button" name="" id="but" value="分享">
 </body>
 </html>
-<script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
 
     wx.config({
@@ -29,18 +28,17 @@ iPhone8
     //qrcode.clear();
     //qrcode.makeCode('new $wpayurl');
 
-    wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+   /* wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
         $('#but').click(function() {
-
             wx.updateAppMessageShareData({
                 title: 'cc', // 分享标题
                 desc: 'dd', // 分享描述
-                link: 'https://1809guomingyang.comcto.com/code', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                imgUrl: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGA8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyWGpIaEExWlpjNGwxV3lfZXhzY3AAAgQihcVcAwSAOgkA', // 分享图标
+                link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: '', // 分享图标
                 success: function () {
                     alert('分享成功')
                 }
             })
         })
-    });
+    });*/
 </script>
