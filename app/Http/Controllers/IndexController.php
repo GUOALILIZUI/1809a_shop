@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\File;
 
 class IndexController extends Controller
 {
@@ -280,9 +281,18 @@ class IndexController extends Controller
         $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appId&secret=$secret&code=$code&grant_type=authorization_code";
         $info=file_get_contents($url);
         $info2=json_decode($info);
-        print_r($info2);
+        $openID=$info['openid'];
+        $access=$this->accessToken();
+        $urll="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$openID&lang=zh_CN";
+        $objJson=file_get_contents($urll);
+        $info=json_decode($objJson,true);
+        $nickname=$info['nickname'];
+        echo '欢迎'. $nickname.'正在跳转至福利页面';
+        header('Refresh:3;url=/cc');
 
-
+    }
+    public function cc(){
+        return view('we.cc');
     }
 
 

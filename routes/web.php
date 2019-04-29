@@ -29,6 +29,7 @@ Route::any('custom','IndexController@custom');
 
 Route::any('we','IndexController@we');
 Route::any('weshow','IndexController@weshow');
+Route::any('cc','IndexController@cc');
 
 
 //群发
