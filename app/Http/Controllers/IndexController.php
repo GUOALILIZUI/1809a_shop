@@ -382,7 +382,7 @@ class IndexController extends Controller
         $lkey='lqd';
         Redis::lpush($lkey,$hkey);
 
-        Redis::lrange($lkey,0,-1);
+//        Redis::lrange($lkey,0,-1);
 
     }
 
