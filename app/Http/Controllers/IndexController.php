@@ -273,8 +273,9 @@ class IndexController extends Controller
 
     }
 
-    public function weshow(){
-        var_dump($_GET);
+    public function weshow(Request $request){
+        $arr=$request->input();
+        print_r($arr);
     }
 
 
