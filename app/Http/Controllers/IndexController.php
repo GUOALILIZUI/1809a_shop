@@ -305,6 +305,7 @@ class IndexController extends Controller
         $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appId&secret=$secret&code=$code&grant_type=authorization_code";
         $info=file_get_contents($url);
         $info2=json_decode($info,true);
+        print_r($info2);die;
         $openID=$info2['openid'];
         $access_token=$info2['access_token'];
         $urll="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access_token&openid=$openID&lang=zh_CN";
