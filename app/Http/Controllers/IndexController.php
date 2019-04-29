@@ -233,7 +233,7 @@ class IndexController extends Controller
             $key='aa';
             Redis::set($key,$arr['access_token']);
             //Redis::get($key);
-            Redis::expire($key,10500);
+            Redis::expire($key,7600);
             $token=$arr['access_token'];
             print_r($token);
         }
@@ -261,6 +261,7 @@ class IndexController extends Controller
         ]);
         $objJson=$response->getBody();
         $info=json_decode($objJson,true);
+        print_r($info);
 
     }
     /**微信授权*/
@@ -279,6 +280,7 @@ class IndexController extends Controller
         $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appId&secret=$secret&code=$code&grant_type=authorization_code";
         $info=file_get_contents($url);
         $info2=json_decode($info);
+        print_r($info2);
 
 
     }
