@@ -21,7 +21,6 @@ class TagController extends Controller
     public function index(Content $content)
     {
         $accessToken=$this->accessToken();
-        //获取标签
         $labelUrl="https://api.weixin.qq.com/cgi-bin/tags/get?access_token=$accessToken";
         $labelJson=file_get_contents($labelUrl);
         $data=json_decode($labelJson,true);

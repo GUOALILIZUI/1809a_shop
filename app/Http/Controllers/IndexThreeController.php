@@ -248,13 +248,20 @@ class IndexController extends Controller
     {
         $access = $this->accessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access";
+        $curl="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxdd0d451ebdddd4f9&redirect_uri=https://1809guomingyang.comcto.com/weshow&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        $qurl="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxdd0d451ebdddd4f9&redirect_uri=https://1809guomingyang.comcto.com/qshow&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         $arr = array(
             "button"=>array(
                         array(
                             "type"=>"view",
-                            "name"=>"授权",
-                            "url"=>"https://1809guomingyang.comcto.com/we"
-                        )
+                            "name"=>"最新福利",
+                            "url"=>$curl
+                        ),
+                array(
+                    "type"=>"view",
+                    "name"=>"签到",
+                    "url"=>$qurl
+                ),
             )
         );
         $strJson=json_encode($arr,JSON_UNESCAPED_UNICODE);
@@ -274,7 +281,26 @@ class IndexController extends Controller
         $redirect_uri='https://1809guomingyang.comcto.com/code';
        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appId&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 //        print_r($url);
-        return view('we.we',['url'=>$url]);
+    }
+
+    public function getJsapiTicket()
+    {
+        $key = 'wx_jsapi_ticket';
+        $ticket = Redis::get($key);
+        if($ticket){
+            return $ticket;
+        }else{
+            $access_token = $this->accessToken();
+            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$access_token&type=jsapi";
+            $ticket_info = json_decode(file_get_contents($url),true);
+            if(isset($ticket_info['ticket'])){
+                Redis::set($key,$ticket_info['ticket']);
+                Redis::expire($key,3600);
+                return $ticket_info['ticket'];
+            }else{
+                return false;
+            }
+        }
     }
 
     /**微信*/
@@ -295,14 +321,76 @@ class IndexController extends Controller
 
 
         $UserInfo=DB::table('suser')->where('openid',$openID)->first();
-
-            echo $nickname.'授权成功';
+        if($UserInfo){
+            echo '欢迎'. $nickname.'回来，正在跳转至福利页面';
+            header('Refresh:3;url=/cc');
+        }else{
+            $dd=[
+                'nickname'=>$nickname,
+                'sex'=>$info3['sex'],
+                'img'=>$info3['headimgurl'],
+                'openid'=>$info3['openid']
+            ];
+            DB::table('suser')->insert($dd);
+            echo '欢迎'. $nickname.'正在跳转至福利页面';
+            header('Refresh:3;url=/cc');
+        }
 
 
     }
 
+    /***微信*/
+    public function cc(){
+        $ticket1=$this->getJsapiTicket();
+        $nonceStr = Str::random(10);
+        $time = time();
+        $current_url = "https" . '://' . $_SERVER['HTTP_HOST'] .$_SERVER['REQUEST_URI'];
+        $string1 = "jsapi_ticket=$ticket1&noncestr=$nonceStr&timestamp=$time&we=$current_url";
+        $sign = sha1($string1);
+        $signInfo=[
+            'appId'=>'wxdd0d451ebdddd4f9',
+            'timestamp'=>$time,
+            'nonceStr'=>$nonceStr,
+            'signature'=>$sign,
+        ];
+        return view('we.cc',['signInfo'=>$signInfo]);
+    }
+
+    /**qianm授权*/
+    public function qshow(Request $request){
+        $code=$_GET['code'];
+        $appId="wxdd0d451ebdddd4f9";
+        $secret="3a0980e46f62a1f9b759fa11adaab484";
+        $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appId&secret=$secret&code=$code&grant_type=authorization_code";
+        $info=file_get_contents($url);
+        $info2=json_decode($info);
+        $openID=$info2->openid;
+
+        $access=$this->accessToken();
+        $urll="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$openID&lang=zh_CN";
+        $objJson=file_get_contents($urll);
+        $info3=json_decode($objJson,true);
+        $nickname=$info3['nickname'];
+        $time=time();
+
+        $id=Redis::incr('id');
+        $hkey='hqd_'.$id;
+        Redis::hset($hkey,'id',$id);
+        Redis::hset($hkey,'nickname',$nickname);
+        Redis::hset($hkey,'time',$time);
+
+        $lkey='lqd';
+        Redis::lpush($lkey,$hkey);
 
 
+
+        $llqd=Redis::lrange($lkey,0,-1);
+        foreach ($llqd as $k =>$v){
+            $aa=Redis::hgetall($v);
+        }
+        print_r($aa);
+
+    }
 
 
 }

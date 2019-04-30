@@ -18,6 +18,7 @@ class LabelController extends Controller
 {
     use HasResourceActions;
 
+    /**标签添加视图*/
     public function index(Content $content)
     {
         return $content
@@ -26,6 +27,7 @@ class LabelController extends Controller
             ->body(view('admin.weixin.labeladd'));
     }
 
+    /**标签添加数据*/
     public function LabelAdd(Request $request){
         $accessToken=$this->accessToken();
         $content=$request->input('content');
@@ -83,6 +85,27 @@ class LabelController extends Controller
         return $token;
 
 
+
+    }
+
+    /**标签展示*/
+    public function LabelList(Content $content){
+        $accessToken=$this->accessToken();
+        $lurl="https://api.weixin.qq.com/cgi-bin/tags/get?access_token=$accessToken";
+        $labelJson=file_get_contents($lurl);
+        $info=json_decode($labelJson,true);
+        $labelInfo=$info['tags'];
+
+        return $content
+            ->header('Index')
+            ->description('description')
+            ->body(view('admin.weixin.labellist',['labelInfo'=>$labelInfo]));
+
+
+        
+    }
+
+    public function lableDo(Request $request){
 
     }
 

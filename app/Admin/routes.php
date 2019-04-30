@@ -26,5 +26,7 @@ Route::group([
     $router->post('LabelAdd', 'LabelController@LabelAdd');
     $router->post('userLabel', 'UsersController@userLabel');
     $router->post('tag', 'TagController@tag');
+    $router->get('LabelList', 'LabelController@LabelList');
+    $router->get('lableDo', 'LabelController@lableDo');
 
 });

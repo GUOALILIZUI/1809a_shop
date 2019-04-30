@@ -83,28 +83,35 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>标签群发</title>
+	<title>标签展示</title>
 </head>
 <body>
 <div class="box-body table-responsive no-padding content">
-	<table  class="table table-hover" >
-		<div align="center" class="bbD">
-			标签：
-			<select class="input3" id="sel">
-				<option>--请选择--</option>
-				@foreach($labelInfo as $k=>$v)
-					<option value="{{$v['id']}}" >{{$v['name']}}</option>
-				@endforeach
-			</select>
-		</div>
-		<div align="center" class="btext">
-			<textarea class="text2"></textarea>
-		</div>
-		<div align="center">
-			<input type="button" id="sub"  class="btn btn-primary"value="发送">
-		</div>
-	</table>
+	<div class="baBody">
+	<div class="bbD">
+		<table class="table table-hover">
 
+		<thead>
+			<tr>
+				<td></td>
+				<td>id</td>
+				<td>name</td>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach ($labelInfo as $v)
+			<tr>
+				<td><input type="checkbox"  name="box" class="check"></td>
+				<td>{{$v['id']}}</td>
+				<td>{{$v['name']}}</td>
+
+			</tr>
+				@endforeach
+		</tbody>
+
+	</table>
+	</div>
+</div>
 </div>
 </body>
 <ml>
@@ -113,29 +120,25 @@
 	<link rel="stylesheet" href="/layui/css/layui.css">
 	<script src="/layui/layui.js"></script>
 	<script>
-		$(function(){
-            layui.use(['layer'],function() {
-                var layer = layui.layer
-                $('#sub').click(function () {
-                    var sel=$('#sel').val()
-                    var content = $(".text2").val()
-
-                    $.ajax({
-                        type: 'POST',
-                        dataType: 'json',
-                        url: 'tag',
-                        data: {content:content,sel:sel},
-                        success: function (msg) {
-                            if (msg.status == 0) {
-                                layer.msg(msg.msg)
-                            } else {
-                                layer.msg(msg.msg)
-                            }
-							// console.log(msg)
-                        }
-                    })
-                })
-            })
-        })
+		// $(function(){
+		//    $('#sel').change(function(){
+		//        var sel=$('#sel').val();
+		//
+		//        $.ajax({
+        //            type: 'POST',
+        //            dataType: 'json',
+        //            url: 'LabelList',
+        //            data: {sel: sel},
+        //            success: function (msg) {
+        //                // if (msg.status == 0) {
+        //                //     layer.msg(msg.msg)
+        //                // } else {
+        //                //     layer.msg(msg.msg)
+        //                // }
+        //                // console.log(msg)
+        //            }
+		// 	   })
+		//    })
+		// })
 	</script>
 </ml>
