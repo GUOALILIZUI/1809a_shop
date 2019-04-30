@@ -55,6 +55,17 @@ class TagController extends Controller
         ]);
         $obj=$response->getBody();
         $info=json_decode($obj,true);
+
+
+        $id=Redis::incr('id');
+        $hkey='hks'.$id;
+        Redis::hset($hkey,'id',$id);
+        Redis::hset($hkey,'content',$content);
+
+        $lkey='lks';
+        Redis::lpush($lkey,$hkey);
+
+//        print_r($info);exit;
         if ($info){
             $aar=array(
                 'status'=>1,

@@ -104,7 +104,6 @@
 				<td><input type="checkbox"  name="box" class="check"></td>
 				<td>{{$v['id']}}</td>
 				<td>{{$v['name']}}</td>
-
 			</tr>
 				@endforeach
 		</tbody>

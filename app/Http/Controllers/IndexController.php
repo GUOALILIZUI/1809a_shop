@@ -236,7 +236,7 @@ class IndexController extends Controller
             $key='aa';
             Redis::set($key,$arr['access_token']);
             //Redis::get($key);
-            Redis::expire($key,7600);
+            Redis::expire($key,3600);
             $token=$arr['access_token'];
             print_r($token);
         //}
@@ -296,7 +296,7 @@ class IndexController extends Controller
 
         $UserInfo=DB::table('suser')->where('openid',$openID)->first();
 
-            echo $nickname.'授权成功';
+            echo '恭喜'.$nickname.'授权成功';
 
 
     }
